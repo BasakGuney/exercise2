@@ -1,0 +1,40 @@
+
+<body>
+    <form action="/" method="POST">
+        <label>Upload your inventory in ZIP form below:</label><br>
+        <input type="file" id="files" name="files" multiple><br>
+        <br>
+        <label for="checkbox1"> Domain:</label><br>
+        <input type="checkbox" id="checkbox1" name="checkbox1"  ><br>
+        <label for="checkbox2"> IP:</label><br>
+        <input type="checkbox" id="checkbox2" name="checkbox2"  ><br>
+        <input type="hidden" id="custId" name="custId" value="3487">
+        <button type ="submit">Submit</button>
+    </form>
+</body>
+
+<!-- <script>
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', (e) =>{
+        e.preventDefault();
+
+        const files = document.getElementById("files");
+        const formData = new FormData();
+
+        for(let i=0; i<files.files.length;i++){
+            formData.append("files",files.files[i]);
+        }
+
+        fetch('/',{
+            method: 'POST',
+            body: formData,
+        })
+        .then(res => res.json())
+        .then(data => console.log(data));
+
+        console.log("here");
+
+    });
+
+</script> -->
