@@ -16,36 +16,32 @@ import {
   Box,
   Stack,
   Textarea,
-  Text,
   Link,
   Button,
+  Text,
 } from "@chakra-ui/react";
 import MyTreeView from "./treeview";
 
-const Practice2 = () => {
+const ExpandedView = () => {
+  const link = (window.location + "").split("host-vars/a.yaml/")[1];
+  let itemArr = [];
+  link.split("/").map((item) => itemArr.push(item));
   const [disable, setDisable] = useState(true);
   const [obj, setObj] = useState({});
-  const [obj2, setObj2] = useState();
+  const [obj2, setObj2] = useState({});
   const [submitActive, setSubmitActive] = useState(false);
+  const [came, setCame] = useState(false);
   const [content, setContent] = useState();
   const k = window.location.href.split("/");
-  const [came, setCame] = useState(false);
-
-  axios.post("/host-vars", { ref: k[5] }).then((res) => {
-    setObj(res.data.response);
-    setObj2(res.data.response);
-    const link = (window.location + "").split("host-vars/")[1];
-    let itemArr = [];
-    link.split("/").map((item) => itemArr.push(item));
-    itemArr.map((item) => {
-      if (typeof obj2 == "object") {
-        setObj2(obj2[item]);
-      } else {
-      }
+  const [inventory, setInventory] = useState();
+  axios
+    .post("/host-vars-expanded", { ref: k[5], itemArr: itemArr })
+    .then((res) => {
+      setObj(res.data.response);
+      setObj2(res.data.response2);
+      setInventory(res.data.inventory);
+      setCame(true);
     });
-    setCame(true);
-  });
-
   function edit() {
     setDisable(false);
     setSubmitActive(true);
@@ -64,7 +60,11 @@ const Practice2 = () => {
               _expanded={{ bg: "#E53E3E", color: "white" }}
               href="/"
             >
-              <Link as="a" color="black" href={window.location + path}>
+              <Link
+                as="a"
+                color="black"
+                href={"/" + inventory + "/host-vars/" + k[5] + path}
+              >
                 {nodes[0]}
               </Link>
 
@@ -110,8 +110,8 @@ const Practice2 = () => {
           {came ? (
             <>
               <Box bg="#FFF5F5">
-                <Text fontSize="xl" color="tomato">
-                  {(window.location + "").split("/").slice(-1)}
+                <Text fontSize="xl" color="#E53E3E">
+                  {("" + window.location).split("/").slice(-1)}
                 </Text>
               </Box>
               <textarea
@@ -134,25 +134,23 @@ const Practice2 = () => {
         </Box>
         <br></br>
         <br></br>
-        {came ? (
-          <Stack>
-            <Button colorScheme="gray" size="xs" onClick={edit}>
-              <EditIcon></EditIcon>
-              Edit
-            </Button>
-            <Button colorScheme="teal" size="xs">
-              <AddIcon></AddIcon>
-              Add Item
-            </Button>
-            <Button colorScheme="red" size="xs">
-              <DeleteIcon></DeleteIcon>
-              Delete This Item
-            </Button>
-          </Stack>
-        ) : null}
+        <Stack>
+          <Button colorScheme="gray" size="xs" onClick={edit}>
+            <EditIcon></EditIcon>
+            Edit
+          </Button>
+          <Button colorScheme="teal" size="xs">
+            <AddIcon></AddIcon>
+            Add Item
+          </Button>
+          <Button colorScheme="red" size="xs">
+            <DeleteIcon></DeleteIcon>
+            Delete This Item
+          </Button>
+        </Stack>
       </Stack>
     </>
   );
 };
 
-export default Practice2;
+export default ExpandedView;

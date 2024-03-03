@@ -32,6 +32,7 @@ import { useEffect } from "react";
 import Practice from "./practice";
 import NavBar from "./NavBar";
 import FileButton from "./FileButton";
+import ExpandedView from "./practice2";
 
 function App() {
   const [redirection, setRedirection] = useState("inventory");
@@ -97,10 +98,51 @@ function App() {
             </ChakraProvider>
           </Route>
           <Route exact path="/:variable/host-vars/:variable">
-            <NavBar index={1} which={0}></NavBar>
+            <NavBar index={1}></NavBar>
           </Route>
           <Route path="/:variable/host-vars/">
-            <NavBar index={1} which={1}></NavBar>
+            <ChakraProvider>
+              <Tabs size="md" variant="enclosed">
+                <TabList>
+                  <Tab>Update Inventory</Tab>
+                  <Tab>Create Inventory</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel>
+                    <Stack gap={0} direction="row" width="50%">
+                      <input
+                        class="form-control form-control-sm"
+                        id="formFileSm"
+                        type="file"
+                        name="files"
+                        onChange={submitFile}
+                      />
+                      <Button size="sm" colorScheme="facebook">
+                        Submit
+                      </Button>
+                    </Stack>
+                    <Tabs defaultIndex={1}>
+                      <TabList>
+                        <Tab>Hosts</Tab>
+                        <Tab>Host Vars</Tab>
+                        <Tab>Group Vars</Tab>
+                      </TabList>
+
+                      <TabPanels>
+                        <TabPanel> </TabPanel>
+                        <TabPanel>
+                          <ExpandedView></ExpandedView>
+                        </TabPanel>
+                        <TabPanel></TabPanel>
+                      </TabPanels>
+                    </Tabs>
+                  </TabPanel>
+                  <TabPanel>
+                    <ExpandedView></ExpandedView>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </ChakraProvider>
           </Route>
 
           <Route>

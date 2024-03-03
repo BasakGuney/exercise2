@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import MyTreeView from "./treeview";
 
-const Practice = (props) => {
+const LeftBar = () => {
   const [disable, setDisable] = useState(true);
   const [obj, setObj] = useState({});
   const [obj2, setObj2] = useState();
@@ -30,22 +30,12 @@ const Practice = (props) => {
   const [content, setContent] = useState();
   const k = window.location.href.split("/");
   const [came, setCame] = useState(false);
+  const [inventory, setInventory] = useState();
 
   axios.post("/host-vars", { ref: k[5] }).then((res) => {
     setObj(res.data.response);
-    setObj2(res.data.response);
-    if (props.came) {
-      const link = (window.location + "").split("host-vars/")[1];
-      let itemArr = [];
-      link.split("/").map((item) => itemArr.push(item));
-      itemArr.map((item) => {
-        if (typeof obj2 == "object") {
-          setObj2(obj2[item]);
-        } else {
-        }
-      });
-      setCame(true);
-    }
+    setInventory(res.data.inventory);
+    setCame(true);
   });
 
   function edit() {
@@ -69,7 +59,7 @@ const Practice = (props) => {
               <Link
                 as="a"
                 color="black"
-                href={"/inventory/host-vars/a.yaml" + path}
+                href={"/" + inventory + "/host-vars/" + k[5] + path}
               >
                 {nodes[0]}
               </Link>
@@ -112,53 +102,9 @@ const Practice = (props) => {
             );
           })}
         <br></br>
-        <Box w="50%">
-          {came ? (
-            <>
-              <Box bg="#FFF5F5">
-                <Text fontSize="xl" color="tomato">
-                  {(window.location + "").split("/").slice(-1)}
-                </Text>
-              </Box>
-              <textarea
-                disabled={disable}
-                class="form-control"
-                w="50%"
-                rows={5}
-                onChange={onChange}
-              >
-                {yaml.stringify(obj2)}
-              </textarea>
-            </>
-          ) : null}
-          <br></br>
-          {submitActive ? (
-            <Button colorScheme="facebook" size="sm">
-              Submit
-            </Button>
-          ) : null}
-        </Box>
-        <br></br>
-        <br></br>
-        {came ? (
-          <Stack>
-            <Button colorScheme="gray" size="xs" onClick={edit}>
-              <EditIcon></EditIcon>
-              Edit
-            </Button>
-            <Button colorScheme="teal" size="xs">
-              <AddIcon></AddIcon>
-              Add Item
-            </Button>
-            <Button colorScheme="red" size="xs">
-              <DeleteIcon></DeleteIcon>
-              Delete This Item
-            </Button>
-          </Stack>
-        ) : null}
       </Stack>
     </>
   );
 };
 
-export default Practice;
+export default LeftBar;

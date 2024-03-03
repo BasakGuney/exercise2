@@ -15,7 +15,7 @@ import {
 import MyTreeView from "./treeview";
 import { Box } from "@mui/material";
 import { useState } from "react";
-import Practice from "./practice";
+import LeftBar from "./practice";
 
 const NavBar = (props) => {
   function submitFile() {
@@ -61,14 +61,14 @@ const NavBar = (props) => {
                 <TabPanels>
                   <TabPanel> </TabPanel>
                   <TabPanel>
-                    <Practice came={props.came}></Practice>
+                    <LeftBar></LeftBar>
                   </TabPanel>
                   <TabPanel></TabPanel>
                 </TabPanels>
               </Tabs>
             </TabPanel>
             <TabPanel>
-              <Practice></Practice>
+              <LeftBar></LeftBar>
             </TabPanel>
           </TabPanels>
         </Tabs>
